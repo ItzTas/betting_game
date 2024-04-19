@@ -20,13 +20,11 @@ class Blackjack():
     
     def player_lost(self) -> bool:
         if self.player.calculate_hand() > 21:
-            self.player._lost_hand = True
             return True
         return False
     
     def dealer_lost(self) -> bool:
         if self.dealer.calculate_hand() > 21:
-            self.dealer._lost_hand = True
             return True
         return False
     

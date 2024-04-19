@@ -8,6 +8,8 @@ class Blackjackgame():
         self.dealer_points = None
         self.game_points = 0
         self.initial_bet = 250
+        self.start_game()
+        self.set_black_jack()
          
     def start_game(self) -> None:
         while True:
@@ -36,7 +38,7 @@ class Blackjackgame():
             elif change_initial_bet == "no":
                 break
             else:
-                print("Invalid initial bet")
+                print("The answer must be yes or no")
                 
     def set_black_jack(self):
         self._blackjack = Blackjack(Deck(), Player(0), Dealer(0), self.game_points, self.player_points, self.dealer_points, self.initial_bet)
@@ -67,4 +69,14 @@ class Blackjackgame():
             except ValueError:
                 print("It must be a number")
             
-        
+    def calculate_outcome(self):
+        if self._blackjack.player.calculate_hand() == self._blackjack.dealer.calculate_hand():
+            return "It is a tie"
+        if self._blackjack.player_lost() or self._blackjack.player.calculate_hand() < self._blackjack.dealer.calculate_hand():
+            self._blackjack.lose_points_player()
+            self._blackjack.gain_points_dealer()
+            return f"You lost {self._blackjack.penalty} points! now you have {self._blackjack.player.points} and the dealer has {self._blackjack.dealer.points}"
+        elif self._blackjack.dealer_lost() or self._blackjack.player.calculate_hand() > self._blackjack.dealer.calculate_hand():
+            self._blackjack.lose_points_dealer()
+            self._blackjack.gain_points_player()
+            return f"The dealer lost {self._blackjack.penalty} points! now he has {self._blackjack.dealer.points} and you have {self._blackjack.player.points}"
