@@ -12,7 +12,6 @@ class Blackjack():
         self.dealer = dealer
         self.gamepoints = gamepoints
         self.penalty = penalty
-        self._game_cards = self.deck._cards
         self.player.points = playerpoints
         self.dealer.points = dealerpoints
         self.initial_bet = penalty
@@ -57,5 +56,7 @@ class Blackjack():
         self.penalty = bet
         return f"bet changed to {bet}"
     
-    def _reset_bet_each_turn(self):
+    def _reset_bet_and_game_turn(self):
         self.penalty = self.initial_bet
+        self.deck.renitialize_deck()
+        self.deck.shuffle_deck()
