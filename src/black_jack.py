@@ -45,17 +45,17 @@ class Blackjack():
         
     def lose_points_player(self) -> None:
         self.player.lose_points(self.penalty)
-        self._reset_bet_each_turn
         
     def lose_points_dealer(self) -> None:
         self.dealer.lose_points(self.penalty)
-        self._reset_bet_each_turn
         
     def change_bet(self, bet) -> None:
+        
         if bet < self.penalty:
-            return "Cannot change bet to lower value"
-        self.penalty = bet
-        return f"bet changed to {bet}"
+            print("Cannot change bet to lower value")
+        else:
+            self.penalty = bet
+            print(f"bet changed to {bet}")
     
     def _reset_bet_and_game_turn(self):
         self.penalty = self.initial_bet

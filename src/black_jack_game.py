@@ -70,6 +70,9 @@ class Blackjackgame():
                     return points
             except ValueError:
                 print("It must be a number")
+                
+    def get_valid_bet(self, prompt):
+        pass
             
     def calculate_outcome(self):
         if self._blackjack.player.calculate_hand() == self._blackjack.dealer.calculate_hand():
@@ -102,13 +105,59 @@ class Blackjackgame():
         self._blackjack.dealer_pick_one_card()
         time.sleep(0.4)
         self._blackjack.dealer_pick_one_card()
-        time.sleep(1)
         print("\n\n\n")        
         while True:
-            play = input("What do you want to do? \nLook at my cards \nLook at the dealer cards \nLook at my points \nLook at the dealer points \nPick a card from the deck \nSkip the round \n:").lower()
+            time.sleep(0.6)
+            play = input("What do you want to do? \nLook at my cards \nLook at the dealer cards \nLook at my points \nLook at the dealer points \nPick a card from the deck \nSkip the turn \nChange the bet \nAllegate victory \n:").lower()
+            if self._blackjack.player.points <= 0:
+                print("You lost good luck next time")
             if play == "look at my cards":
+                print("\n")
                 print(self._blackjack.player)
                 print("\n")
             if play == "look at the dealer cards":
+                print("\n")
                 print(self._blackjack.dealer)
+                print("\n")
+            if play == "look at my points":
+                print("\n")
+                print(f"You have {self._blackjack.player.points} points")
+                print("\n")
+            if play == "look at the dealer points":
+                print("\n")
+                print(f"The dealer has {self._blackjack.dealer.points} points")
+                print("\n")
+            if play == "pick a card from the deck":
+                print("\n")
+                self._blackjack.player_pick_card()
+                print("\n")
+                if self._blackjack.player_lost():
+                    print("Your cards have surpassed 21") 
+                    print(self.calculate_outcome())
+                    print("\n")
+            if play == "change the bet":
+                try:
+                    bet = int(input("Place your new bet"))
+                    self._blackjack.change_bet() #improve
+                except ValueError:
+                    print("\n")
+                    print("It must be a number")
+                    print("\n")
+            if play == "skip the turn":
+                print("\n")
+                print("It is the dealer turn now")
+                print("\n")
+                time.sleep(0.7)
+                self._blackjack.dealer_pick_card()
+                print("\n")
+                time.sleep(0.7)
+                print("The dealer skips his turn")
+                if self._blackjack.dealer_lost():
+                    print(self.calculate_outcome())
+                    print("\n")
+            if play == "allegate victory":
+                print(self.calculate_outcome)
+            else:
+                print("\n")
+                print("Please choose a valid answer")
                 print("\n")

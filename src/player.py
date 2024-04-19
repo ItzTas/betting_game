@@ -64,7 +64,7 @@ class Dealer(Player):
         
     def pick_various_cards(self, deck) -> None:
         while self.calculate_hand() < 17:
-            super().pick_card(deck)
+            self._hand.append(deck.pick_card())
             if len(self._hand) <= 1:
                 print("The dealer picked a mysterious card")
             else:
