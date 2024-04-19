@@ -31,8 +31,11 @@ class Blackjack():
     def player_pick_card(self) -> None:
         self.player.pick_card(self.deck)
         
-    def dealer_pick_card(self) -> None:
+    def dealer_pick_one_card(self):
         self.dealer.pick_card(self.deck)
+        
+    def dealer_pick_card(self) -> None:
+        self.dealer.pick_various_cards(self.deck)
         
     def gain_points_player(self) -> None:
         self.player.gain_points(self.penalty)

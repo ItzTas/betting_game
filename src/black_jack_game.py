@@ -1,6 +1,7 @@
 from black_jack import Blackjack
 from player import Player, Dealer
 from deck import Deck
+import time
 class Blackjackgame():
     def __init__(self) -> None:
         self._blackjack = None
@@ -10,6 +11,7 @@ class Blackjackgame():
         self.initial_bet = 250
         self.start_game()
         self.set_black_jack()
+        self.play()
          
     def start_game(self) -> None:
         while True:
@@ -80,3 +82,33 @@ class Blackjackgame():
             self._blackjack.lose_points_dealer()
             self._blackjack.gain_points_player()
             return f"The dealer lost {self._blackjack.penalty} points! now he has {self._blackjack.dealer.points} and you have {self._blackjack.player.points}"
+        
+    def play(self):
+        print("\n\n\n")
+        print("---Starting game---")
+        print("\n")
+        time.sleep(1)
+        print("--Picking your cards--")
+        print("\n")
+        time.sleep(0.7)
+        self._blackjack.player_pick_card()
+        time.sleep(0.4)
+        self._blackjack.player_pick_card()
+        time.sleep(0.4)
+        print("\n")
+        print("--Picking the dealer cards--")
+        print("\n")
+        time.sleep(0.7)
+        self._blackjack.dealer_pick_one_card()
+        time.sleep(0.4)
+        self._blackjack.dealer_pick_one_card()
+        time.sleep(1)
+        print("\n\n\n")        
+        while True:
+            play = input("What do you want to do? \nLook at my cards \nLook at the dealer cards \nLook at my points \nLook at the dealer points \nPick a card from the deck \nSkip the round \n:").lower()
+            if play == "look at my cards":
+                print(self._blackjack.player)
+                print("\n")
+            if play == "look at the dealer cards":
+                print(self._blackjack.dealer)
+                print("\n")

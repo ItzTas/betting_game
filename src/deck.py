@@ -10,7 +10,8 @@ class Deck():
         random.shuffle(self._cards)
         
     def pick_card(self) -> None:
-        return self._cards.pop()
+        card = self._cards.pop()
+        return card
     
     def renitialize_deck(self) -> None:
         suits = ["Hearts", "Diamonds", "Clubs", "Spades"]

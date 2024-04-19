@@ -1,4 +1,5 @@
 from deck import Deck
+import time
 
 class Player():
     def __init__(self, points) -> None:
@@ -8,6 +9,7 @@ class Player():
         
     def pick_card(self, deck) -> None:
         self._hand.append(deck.pick_card())
+        print(f"You picked a {self._hand[-1][1]} of {self._hand[-1][0]}")
     
     def lose_points(self, penalty) -> None:
         self.points -= penalty
@@ -51,11 +53,28 @@ class Dealer(Player):
     def __str__(self) -> str:
         first = "The dealer has in his hand:\n"
         cards = ""
+        tird = f"He has {self.calculate_hand()} worth of cards"
+        if len(self._hand) == 2:    
+            cards += f"A mysterious card\n"
+            cards += f"And a {self._hand[1][1]} of {self._hand[1][0]}\n"
+            return first + cards
         for card in self._hand:
             cards += f"A {card[1]} of {card[0]}\n"
-        tird = f"He has {self.calculate_hand()} worth of cards"
         return first + cards + tird
         
-    def pick_card(self, deck) -> None:
+    def pick_various_cards(self, deck) -> None:
         while self.calculate_hand() < 17:
             super().pick_card(deck)
+            if len(self._hand) <= 1:
+                print("The dealer picked a mysterious card")
+            else:
+                print(f"The dealer picked a {self._hand[-1][1]} of {self._hand[-1][0]}")
+            time.sleep(0.3)
+    
+    def pick_card(self, deck) -> None:
+        self._hand.append(deck.pick_card())
+        if len(self._hand) <= 1:
+            print("The dealer picked a mysterious card")
+        else:
+            print(f"The dealer picked a {self._hand[-1][1]} of {self._hand[-1][0]}")
+            
