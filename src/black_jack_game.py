@@ -72,21 +72,50 @@ class Blackjackgame():
                 print("It must be a number")
                 
     def get_valid_bet(self, prompt):
-        pass
+        try:
+            bet = int(input(prompt))
+            if bet > self._blackjack.dealer.points:
+                print("The bet cannot be higher than the dealer points")
+            elif bet > self._blackjack.player.points:
+                print("The bet cannot be higher than your points")
+            else:
+                self._blackjack.change_bet(bet)
+        except ValueError:
+            print("It must be a number")
             
     def calculate_outcome(self):
         if self._blackjack.player.calculate_hand() == self._blackjack.dealer.calculate_hand():
-            return "It is a tie"
+            print("\n")
+            print(self._blackjack.player)
+            print("\n")
+            print(self._blackjack.dealer)
+            print(f"It is a tie")
+            time.sleep(2)
+            self._blackjack._reset_bet_and_game_turn()
         if self._blackjack.player_lost() or self._blackjack.player.calculate_hand() < self._blackjack.dealer.calculate_hand():
+            print("\n")
+            print(self._blackjack.player)
+            print("\n")
+            print(self._blackjack.dealer)
             self._blackjack.lose_points_player()
             self._blackjack.gain_points_dealer()
-            return f"You lost {self._blackjack.penalty} points! now you have {self._blackjack.player.points} and the dealer has {self._blackjack.dealer.points}"
+            print(f"You lost {self._blackjack.penalty} points! now you have {self._blackjack.player.points} and the dealer has {self._blackjack.dealer.points}")
+            time.sleep(2)
+            self._blackjack._reset_bet_and_game_turn()
         elif self._blackjack.dealer_lost() or self._blackjack.player.calculate_hand() > self._blackjack.dealer.calculate_hand():
+            print("\n")
+            print(self._blackjack.player)
+            print("\n")
+            print(self._blackjack.dealer)
+            print("\n")
             self._blackjack.lose_points_dealer()
             self._blackjack.gain_points_player()
-            return f"The dealer lost {self._blackjack.penalty} points! now he has {self._blackjack.dealer.points} and you have {self._blackjack.player.points}"
+            print(f"The dealer lost {self._blackjack.penalty} points! now he has {self._blackjack.dealer.points} and you have {self._blackjack.player.points}")
+            time.sleep(2)
+            self._blackjack._reset_bet_and_game_turn()
         
     def play(self):
+        turn = 0
         print("\n\n\n")
         print("---Starting game---")
         print("\n")
@@ -107,27 +136,33 @@ class Blackjackgame():
         self._blackjack.dealer_pick_one_card()
         print("\n\n\n")        
         while True:
+            if self._blackjack.player.points <= 0:
+                print("You lost! good luck next time")
+                self.play_again()
+                break
+            if self._blackjack.dealer.points <= 0:
+                print("You won! you did good")
+                self.play_again()
+                break
             time.sleep(0.6)
             play = input("What do you want to do? \nLook at my cards \nLook at the dealer cards \nLook at my points \nLook at the dealer points \nPick a card from the deck \nSkip the turn \nChange the bet \nAllegate victory \n:").lower()
-            if self._blackjack.player.points <= 0:
-                print("You lost good luck next time")
             if play == "look at my cards":
                 print("\n")
                 print(self._blackjack.player)
                 print("\n")
-            if play == "look at the dealer cards":
+            elif play == "look at the dealer cards":
                 print("\n")
                 print(self._blackjack.dealer)
                 print("\n")
-            if play == "look at my points":
+            elif play == "look at my points":
                 print("\n")
                 print(f"You have {self._blackjack.player.points} points")
                 print("\n")
-            if play == "look at the dealer points":
+            elif play == "look at the dealer points":
                 print("\n")
                 print(f"The dealer has {self._blackjack.dealer.points} points")
                 print("\n")
-            if play == "pick a card from the deck":
+            elif play == "pick a card from the deck":
                 print("\n")
                 self._blackjack.player_pick_card()
                 print("\n")
@@ -135,29 +170,52 @@ class Blackjackgame():
                     print("Your cards have surpassed 21") 
                     print(self.calculate_outcome())
                     print("\n")
-            if play == "change the bet":
+            elif play == "change the bet":
                 try:
-                    bet = int(input("Place your new bet"))
-                    self._blackjack.change_bet() #improve
+                    print("\n")
+                    self.get_valid_bet("Place your bet: ")
+                    print("\n")
                 except ValueError:
                     print("\n")
                     print("It must be a number")
                     print("\n")
-            if play == "skip the turn":
+            elif play == "skip the turn":
                 print("\n")
                 print("It is the dealer turn now")
                 print("\n")
+                turn += 1
                 time.sleep(0.7)
                 self._blackjack.dealer_pick_card()
                 print("\n")
                 time.sleep(0.7)
                 print("The dealer skips his turn")
+                print("\n")
                 if self._blackjack.dealer_lost():
                     print(self.calculate_outcome())
                     print("\n")
-            if play == "allegate victory":
-                print(self.calculate_outcome)
+            elif play == "allegate victory":
+                if turn == 0:
+                    print("\n")
+                    print("Cannot allegate victory on the first turn")
+                    print("\n\n\n\n")
+                else:
+                    print(self.calculate_outcome())
             else:
                 print("\n")
                 print("Please choose a valid answer")
                 print("\n")
+                
+    def play_again(self):
+        while True:
+            print("\n")
+            user_choice = input("Do you wish to play again? yes/no ")
+            print("\n")
+            if user_choice == "yes":
+                self.start_game()
+                self.set_black_jack()
+                self.play()
+            elif user_choice == "no":
+                print("---Finished---")
+                break
+            else:
+                print("The answer must be yes or no")

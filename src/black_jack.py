@@ -1,5 +1,6 @@
 from deck import Deck
 from player import Player
+import time
 
 class Blackjack():
     def __init__(self, deck, player, dealer, gamepoints=2000, playerpoints=None, dealerpoints=None, penalty=250) -> None:
@@ -52,7 +53,7 @@ class Blackjack():
     def change_bet(self, bet) -> None:
         
         if bet < self.penalty:
-            print("Cannot change bet to lower value")
+            print("Cannot change bet to a value lower than the initial bet")
         else:
             self.penalty = bet
             print(f"bet changed to {bet}")
@@ -61,3 +62,17 @@ class Blackjack():
         self.penalty = self.initial_bet
         self.deck.renitialize_deck()
         self.deck.shuffle_deck()
+        self.player._hand = []
+        self.player_pick_card()
+        time.sleep(0.4)
+        self.player_pick_card()
+        self.dealer._hand = []
+        print("\n")
+        self.dealer_pick_one_card()
+        time.sleep(0.4)
+        self.dealer_pick_one_card()
+        print("The hands were reseted and the current bet reseted to the initial bet")
+        print("\n\n\n")
+        print(self.player)
+        print("\n\n\n")
+        print(self.dealer)
