@@ -36,9 +36,25 @@ class Player():
             total_score += 1
         return total_score
     
+    def __str__(self) -> str:
+        first = "You have in your hand:\n"
+        cards = ""
+        for card in self._hand:
+            cards += f"A {card[1]} of {card[0]}\n"
+        tird = f"You have {self.calculate_hand()} worth of cards"
+        return first + cards + tird
+    
 class Dealer(Player):
     def __init__(self, points) -> None:
         super().__init__(points)
+        
+    def __str__(self) -> str:
+        first = "The dealer has in his hand:\n"
+        cards = ""
+        for card in self._hand:
+            cards += f"A {card[1]} of {card[0]}\n"
+        tird = f"He has {self.calculate_hand()} worth of cards"
+        return first + cards + tird
         
     def pick_card(self, deck) -> None:
         while self.calculate_hand() < 17:
