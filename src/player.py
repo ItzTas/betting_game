@@ -4,6 +4,7 @@ class Player():
     def __init__(self, points) -> None:
         self._hand = []
         self.points = points
+        self._lost_hand = False
         
     def pick_card(self, deck) -> None:
         self._hand.append(deck.pick_card())
@@ -34,3 +35,11 @@ class Player():
         elif first_ace:
             total_score += 1
         return total_score
+    
+class Dealer(Player):
+    def __init__(self, points) -> None:
+        super().__init__(points)
+        
+    def pick_card(self, deck) -> None:
+        while self.calculate_hand() < 17:
+            super().pick_card(deck)
