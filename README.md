@@ -1,7 +1,5 @@
 # betting_game
 
-## This is a personal project
-
 #### This is one of my first projects
 
 Blackjack is a game where you have to have more cards than your oponent but you cannot surpass the 21 points
